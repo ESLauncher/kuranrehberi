@@ -19,7 +19,6 @@ body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    /* İçeriğin telefonda sola ve düzgün hizalanması için */
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -69,7 +68,7 @@ body {
     width: 100%;
 }
 
-/* Sayfa genelindeki ana kapsayıcıların sola dayalı ve düzgün durması için */
+/* Sayfa genelindeki ana kapsayıcılar */
 .container, .container-fluid {
     width: 100%;
     max-width: 850px;
@@ -80,7 +79,7 @@ body {
 }
 
 /* ========================================== */
-/* MOBİL UYUMLULUK VE SOLA YASLAMA AYARLARI   */
+/* MOBİL UYUMLULUK VE SOLA YASLAMA AYARLARI  */
 /* ========================================== */
 @media (max-width: 768px) {
     body {

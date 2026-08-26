@@ -11,4 +11,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "KuranRehberi.dll"]
+ENTRYPOINT ["dotnet", "myblozewebsite.dll"]

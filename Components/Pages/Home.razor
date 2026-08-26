@@ -1,0 +1,475 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject HttpClient Http
+
+<PageTitle>Kuran-ı Kerim Rehberi</PageTitle>
+
+<div class="main-container p-3 p-md-4">
+    <!-- Ana Arama ve Seçim Paneli -->
+    <div class="liquid-glass-card p-4 mb-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0">🔍</span>
+                    <input type="text" class="form-control border-0 rounded-pill shadow-sm" 
+                           placeholder="Sure ara (Duhâ, Mâide, Bakara...) ve Enter'a bas..." 
+                           style="background: rgba(255,255,255,0.7);"
+                           @bind="aramaMetni" 
+                           @bind:event="oninput"
+                           @onkeydown="AramaKlavyeKontrol" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <select class="form-select border-0 rounded-pill shadow-sm" 
+                        style="background: rgba(255,255,255,0.7);" 
+                        value="@seciliSureNo"
+                        @onchange="OnSelectChanged">
+                    @foreach (var sure in FiltrelenmisSureler)
+                    {
+                        <option value="@sure.Number">
+                            @sure.Number. @sure.TurkceIsim (@sure.ArapcaIsim)
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2 text-end">
+                @if (seciliSureDetay != null)
+                {
+                    <span class="badge bg-success rounded-pill px-3 py-2 shadow-sm">
+                        @seciliSureDetay.AyetSayisi Ayet
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Yükleniyor Göstergesi -->
+    @if (isLoading)
+    {
+        <div class="text-center py-5 liquid-glass-card">
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted fw-bold">Sayfalar Yükleniyor...</p>
+        </div>
+    }
+    else
+    {
+        <!-- Ana İçerik Alanı -->
+        <div class="liquid-glass-card p-3 p-md-4 position-relative">
+            <div class="text-center mb-3">
+                <h3 class="fw-bold text-success mb-1">@seciliSureDetay?.TurkceIsim Suresi</h3>
+                <span class="text-muted small">@seciliSureDetay?.ArapcaIsim</span>
+            </div>
+
+            <!-- Sayfalandırma Konteyneri (Oklar ve Liste) -->
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                
+                <!-- Sol Ok -->
+                <button @onclick="() => SayfaDegistir(-1)" 
+                        class="btn rounded-circle p-3 shadow-sm nav-arrow-btn flex-shrink-0" 
+                        style="opacity: @(aktifSayfa == 0 ? "0.3" : "1"); pointer-events: @(aktifSayfa == 0 ? "none" : "auto");">
+                    ◀
+                </button>
+
+                <!-- Sıralı Ayet Listesi (Her ayet kendi kutusunda alt alta) -->
+                <div class="flex-grow-1 px-1 d-flex flex-column gap-3">
+                    @if (sayfaAyetler != null && sayfaMealAyetler != null && sayfaSesAyetler != null)
+                    {
+                        @for (int i = 0; i < sayfaAyetler.Count; i++)
+                        {
+                            var ayet = sayfaAyetler[i];
+                            var mealAyet = sayfaMealAyetler[i];
+                            var sesAyet = sayfaSesAyetler[i];
+                            string metin = ayet.Text;
+
+                            if (seciliSureNo != 1 && seciliSureNo != 9 && aktifSayfa == 0 && i == 0)
+                            {
+                                const string bismillah = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+                                if (metin.StartsWith(bismillah))
+                                {
+                                    metin = metin.Substring(bismillah.Length).Trim();
+                                }
+                            }
+
+                            <div class="p-3 p-md-4 rounded-4 shadow-sm ayah-row-card" style="background: rgba(255,255,255,0.75); border-left: 5px solid #059669;">
+                                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2 border-bottom pb-2">
+                                    <span class="fw-bold text-success">[@mealAyet.NumberInSurah. Ayet]</span>
+                                    @if (!string.IsNullOrEmpty(sesAyet.Audio))
+                                    {
+                                        <audio controls class="audio-player">
+                                            <source src="@sesAyet.Audio" type="audio/mpeg">
+                                        </audio>
+                                    }
+                                </div>
+
+                                <div class="text-end my-3" style="direction: rtl;">
+                                    <span class="arabic-ayah-text">
+                                        @metin <span class="quran-number">۝@ArapcaRakamCevir(ayet.NumberInSurah)</span>
+                                    </span>
+                                </div>
+
+                                <div class="text-dark fs-6 fs-md-5 pt-2 border-top" style="text-align: justify;">
+                                    @mealAyet.Text
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <!-- Sağ Ok -->
+                <button @onclick="() => SayfaDegistir(1)" 
+                        class="btn rounded-circle p-3 shadow-sm nav-arrow-btn flex-shrink-0" 
+                        style="opacity: @(aktifSayfa >= ToplamSayfa - 1 ? "0.3" : "1"); pointer-events: @(aktifSayfa >= ToplamSayfa - 1 ? "none" : "auto");">
+                    ▶
+                </button>
+
+            </div>
+
+            <!-- Sayfa Göstergesi -->
+            <div class="text-center mt-4">
+                <span class="badge bg-success bg-opacity-75 text-white rounded-pill px-4 py-2 shadow-sm">
+                    Sayfa @(aktifSayfa + 1) / @ToplamSayfa
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #e0f2fe, #f0fdf4);
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .main-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .liquid-glass-card {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        border-radius: 1.5rem;
+    }
+
+    .arabic-ayah-text {
+        font-family: 'Amiri', serif;
+        font-size: 1.6rem;
+        color: #1f2937;
+        line-height: 2.2;
+    }
+
+    .quran-number {
+        font-family: 'Amiri', serif;
+        color: #059669;
+        font-size: 1.3rem;
+        font-weight: bold;
+        unicode-bidi: isolate;
+        display: inline-block;
+        margin: 0 4px;
+    }
+
+    .nav-arrow-btn {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .nav-arrow-btn:hover {
+        background: #ffffff;
+        transform: scale(1.05);
+    }
+
+    .audio-player {
+        height: 30px;
+        max-width: 200px;
+    }
+
+    .ayah-row-card {
+        transition: transform 0.2s ease;
+    }
+    .ayah-row-card:hover {
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+</style>
+
+@code {
+    private string aramaMetni = "";
+    private int seciliSureNo = 1;
+    private SurahInfo? seciliSureDetay;
+    private bool isLoading = false;
+
+    private List<AyahItem> tumArapcaAyetler = new();
+    private List<AyahItem> tumMealAyetler = new();
+    private List<AyahItem> tumSesAyetler = new();
+
+    private int aktifSayfa = 0;
+    private const int ayetSayisiSayfaBasina = 4;
+
+    private int ToplamSayfa => tumArapcaAyetler.Count > 0 
+        ? (int)Math.Ceiling(tumArapcaAyetler.Count / (double)ayetSayisiSayfaBasina) 
+        : 1;
+
+    private int baslangicIndex => aktifSayfa * ayetSayisiSayfaBasina;
+
+    private List<AyahItem> sayfaAyetler => tumArapcaAyetler.Skip(baslangicIndex).Take(ayetSayisiSayfaBasina).ToList();
+    private List<AyahItem> sayfaMealAyetler => tumMealAyetler.Skip(baslangicIndex).Take(ayetSayisiSayfaBasina).ToList();
+    private List<AyahItem> sayfaSesAyetler => tumSesAyetler.Skip(baslangicIndex).Take(ayetSayisiSayfaBasina).ToList();
+
+    private IEnumerable<SurahInfo> FiltrelenmisSureler =>
+        string.IsNullOrWhiteSpace(aramaMetni)
+            ? TumSureler
+            : TumSureler.Where(s => NormalizeString(s.TurkceIsim).Contains(NormalizeString(aramaMetni)) || 
+                                     s.Number.ToString() == aramaMetni.Trim());
+
+    private string NormalizeString(string text)
+    {
+        return text.ToLowerInvariant()
+                   .Replace("â", "a").Replace("î", "i").Replace("û", "u")
+                   .Replace("ç", "c").Replace("ğ", "g").Replace("ı", "i")
+                   .Replace("ö", "o").Replace("ş", "s").Replace("ü", "u")
+                   .Replace("'", "").Replace("-", "").Trim();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SureYukle(1);
+    }
+
+    private async Task OnSelectChanged(ChangeEventArgs e)
+    {
+        if (e.Value != null && int.TryParse(e.Value.ToString(), out int yeniNo))
+        {
+            await SureYukle(yeniNo);
+        }
+    }
+
+    // Arama kutusunda Enter'a basıldığında çalışır
+    private async Task AramaKlavyeKontrol(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            var ilkEslesme = FiltrelenmisSureler.FirstOrDefault();
+            if (ilkEslesme != null)
+            {
+                await SureYukle(ilkEslesme.Number);
+            }
+        }
+    }
+
+    private async Task SureYukle(int sureNo)
+    {
+        seciliSureNo = sureNo;
+        isLoading = true;
+        seciliSureDetay = TumSureler.FirstOrDefault(s => s.Number == sureNo);
+        aktifSayfa = 0;
+
+        StateHasChanged();
+
+        try
+        {
+            var url = $"https://api.alquran.cloud/v1/surah/{sureNo}/editions/quran-uthmani,tr.diyanet,ar.alafasy";
+            var response = await Http.GetFromJsonAsync<QuranApiResponse<List<SurahEditionData>>>(url);
+
+            if (response?.Data != null && response.Data.Count >= 3)
+            {
+                tumArapcaAyetler = response.Data[0].Ayahs ?? new();
+                tumMealAyetler = response.Data[1].Ayahs ?? new();
+                tumSesAyetler = response.Data[2].Ayahs ?? new();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ayet yükleme hatası: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void SayfaDegistir(int yon)
+    {
+        aktifSayfa += yon;
+        if (aktifSayfa < 0)
+        {
+            aktifSayfa = 0;
+        }
+        else if (aktifSayfa >= ToplamSayfa)
+        {
+            aktifSayfa = ToplamSayfa - 1;
+        }
+    }
+
+    private string ArapcaRakamCevir(int number)
+    {
+        string numStr = number.ToString();
+        string arapcaRakamlar = "";
+        foreach (char c in numStr)
+        {
+            switch (c)
+            {
+                case '0': arapcaRakamlar += "٠"; break;
+                case '1': arapcaRakamlar += "١"; break;
+                case '2': arapcaRakamlar += "٢"; break;
+                case '3': arapcaRakamlar += "٣"; break;
+                case '4': arapcaRakamlar += "٤"; break;
+                case '5': arapcaRakamlar += "٥"; break;
+                case '6': arapcaRakamlar += "٦"; break;
+                case '7': arapcaRakamlar += "٧"; break;
+                case '8': arapcaRakamlar += "٨"; break;
+                case '9': arapcaRakamlar += "٩"; break;
+            }
+        }
+        return arapcaRakamlar;
+    }
+
+    public class SurahInfo
+    {
+        public int Number { get; set; }
+        public string TurkceIsim { get; set; } = string.Empty;
+        public string ArapcaIsim { get; set; } = string.Empty;
+        public int AyetSayisi { get; set; }
+    }
+
+    public class QuranApiResponse<T>
+    {
+        public int Code { get; set; }
+        public T? Data { get; set; }
+    }
+
+    public class SurahEditionData
+    {
+        public List<AyahItem> Ayahs { get; set; } = new();
+    }
+
+    public class AyahItem
+    {
+        public int NumberInSurah { get; set; }
+        public string Text { get; set; } = string.Empty;
+        public string Audio { get; set; } = string.Empty;
+    }
+
+    private static readonly List<SurahInfo> TumSureler = new()
+    {
+        new SurahInfo { Number = 1, TurkceIsim = "Fâtiha", ArapcaIsim = "الفاتحة", AyetSayisi = 7 },
+        new SurahInfo { Number = 2, TurkceIsim = "Bakara", ArapcaIsim = "البقرة", AyetSayisi = 286 },
+        new SurahInfo { Number = 3, TurkceIsim = "Âl-i İmrân", ArapcaIsim = "آل عمران", AyetSayisi = 200 },
+        new SurahInfo { Number = 4, TurkceIsim = "Nisâ", ArapcaIsim = "النساء", AyetSayisi = 176 },
+        new SurahInfo { Number = 5, TurkceIsim = "Mâide", ArapcaIsim = "المائدة", AyetSayisi = 120 },
+        new SurahInfo { Number = 6, TurkceIsim = "En'âm", ArapcaIsim = "الأنعام", AyetSayisi = 165 },
+        new SurahInfo { Number = 7, TurkceIsim = "A'râf", ArapcaIsim = "الأعراف", AyetSayisi = 206 },
+        new SurahInfo { Number = 8, TurkceIsim = "Enfâl", ArapcaIsim = "الأنفال", AyetSayisi = 75 },
+        new SurahInfo { Number = 9, TurkceIsim = "Tevbe", ArapcaIsim = "التوبة", AyetSayisi = 129 },
+        new SurahInfo { Number = 10, TurkceIsim = "Yûnus", ArapcaIsim = "يونس", AyetSayisi = 109 },
+        new SurahInfo { Number = 11, TurkceIsim = "Hûd", ArapcaIsim = "هود", AyetSayisi = 123 },
+        new SurahInfo { Number = 12, TurkceIsim = "Yûsuf", ArapcaIsim = "يوسف", AyetSayisi = 111 },
+        new SurahInfo { Number = 13, TurkceIsim = "Ra'd", ArapcaIsim = "الرعد", AyetSayisi = 43 },
+        new SurahInfo { Number = 14, TurkceIsim = "İbrâhîm", ArapcaIsim = "إبراهيم", AyetSayisi = 52 },
+        new SurahInfo { Number = 15, TurkceIsim = "Hicr", ArapcaIsim = "الحجر", AyetSayisi = 99 },
+        new SurahInfo { Number = 16, TurkceIsim = "Nahl", ArapcaIsim = "النحل", AyetSayisi = 128 },
+        new SurahInfo { Number = 17, TurkceIsim = "İsrâ", ArapcaIsim = "الإسراء", AyetSayisi = 111 },
+        new SurahInfo { Number = 18, TurkceIsim = "Kehf", ArapcaIsim = "الكهف", AyetSayisi = 110 },
+        new SurahInfo { Number = 19, TurkceIsim = "Meryem", ArapcaIsim = "مريم", AyetSayisi = 98 },
+        new SurahInfo { Number = 20, TurkceIsim = "Tâhâ", ArapcaIsim = "طه", AyetSayisi = 135 },
+        new SurahInfo { Number = 21, TurkceIsim = "Enbiyâ", ArapcaIsim = "الأنبياء", AyetSayisi = 112 },
+        new SurahInfo { Number = 22, TurkceIsim = "Hac", ArapcaIsim = "الحج", AyetSayisi = 78 },
+        new SurahInfo { Number = 23, TurkceIsim = "Mü'minûn", ArapcaIsim = "المؤمنون", AyetSayisi = 118 },
+        new SurahInfo { Number = 24, TurkceIsim = "Nûr", ArapcaIsim = "النور", AyetSayisi = 64 },
+        new SurahInfo { Number = 25, TurkceIsim = "Furkân", ArapcaIsim = "الفرقان", AyetSayisi = 77 },
+        new SurahInfo { Number = 26, TurkceIsim = "Şuerâ", ArapcaIsim = "الشعراء", AyetSayisi = 227 },
+        new SurahInfo { Number = 27, TurkceIsim = "Neml", ArapcaIsim = "النمل", AyetSayisi = 93 },
+        new SurahInfo { Number = 28, TurkceIsim = "Kasas", ArapcaIsim = "القصص", AyetSayisi = 88 },
+        new SurahInfo { Number = 29, TurkceIsim = "Ankebût", ArapcaIsim = "العنكبوت", AyetSayisi = 69 },
+        new SurahInfo { Number = 30, TurkceIsim = "Rûm", ArapcaIsim = "الروم", AyetSayisi = 60 },
+        new SurahInfo { Number = 31, TurkceIsim = "Lokmân", ArapcaIsim = "لقمان", AyetSayisi = 34 },
+        new SurahInfo { Number = 32, TurkceIsim = "Secde", ArapcaIsim = "السجدة", AyetSayisi = 30 },
+        new SurahInfo { Number = 33, TurkceIsim = "Ahzâb", ArapcaIsim = "الأحزاب", AyetSayisi = 73 },
+        new SurahInfo { Number = 34, TurkceIsim = "Sebe'", ArapcaIsim = "سبإ", AyetSayisi = 54 },
+        new SurahInfo { Number = 35, TurkceIsim = "Fâtır", ArapcaIsim = "فاطر", AyetSayisi = 45 },
+        new SurahInfo { Number = 36, TurkceIsim = "Yâsîn", ArapcaIsim = "يس", AyetSayisi = 83 },
+        new SurahInfo { Number = 37, TurkceIsim = "Sâffât", ArapcaIsim = "الصافات", AyetSayisi = 182 },
+        new SurahInfo { Number = 38, TurkceIsim = "Sâd", ArapcaIsim = "ص", AyetSayisi = 88 },
+        new SurahInfo { Number = 39, TurkceIsim = "Zümer", ArapcaIsim = "الزمر", AyetSayisi = 75 },
+        new SurahInfo { Number = 40, TurkceIsim = "Mü'min (Gâfir)", ArapcaIsim = "غافر", AyetSayisi = 85 },
+        new SurahInfo { Number = 41, TurkceIsim = "Fussilet", ArapcaIsim = "فصلت", AyetSayisi = 54 },
+        new SurahInfo { Number = 42, TurkceIsim = "Şûrâ", ArapcaIsim = "الشورى", AyetSayisi = 53 },
+        new SurahInfo { Number = 43, TurkceIsim = "Zuhruf", ArapcaIsim = "الزخرف", AyetSayisi = 89 },
+        new SurahInfo { Number = 44, TurkceIsim = "Duhân", ArapcaIsim = "الدخان", AyetSayisi = 59 },
+        new SurahInfo { Number = 45, TurkceIsim = "Câsiye", ArapcaIsim = "الجاثية", AyetSayisi = 37 },
+        new SurahInfo { Number = 46, TurkceIsim = "Ahkâf", ArapcaIsim = "الأحقاف", AyetSayisi = 35 },
+        new SurahInfo { Number = 47, TurkceIsim = "Muhammed", ArapcaIsim = "محمد", AyetSayisi = 38 },
+        new SurahInfo { Number = 48, TurkceIsim = "Fetih", ArapcaIsim = "الفتح", AyetSayisi = 29 },
+        new SurahInfo { Number = 49, TurkceIsim = "Hucurât", ArapcaIsim = "الحجرات", AyetSayisi = 18 },
+        new SurahInfo { Number = 50, TurkceIsim = "Kâf", ArapcaIsim = "ق", AyetSayisi = 45 },
+        new SurahInfo { Number = 51, TurkceIsim = "Zâriyât", ArapcaIsim = "الذاريات", AyetSayisi = 60 },
+        new SurahInfo { Number = 52, TurkceIsim = "Tûr", ArapcaIsim = "الطور", AyetSayisi = 49 },
+        new SurahInfo { Number = 53, TurkceIsim = "Necm", ArapcaIsim = "النجم", AyetSayisi = 62 },
+        new SurahInfo { Number = 54, TurkceIsim = "Kamer", ArapcaIsim = "القمر", AyetSayisi = 55 },
+        new SurahInfo { Number = 55, TurkceIsim = "Rahmân", ArapcaIsim = "الرحمن", AyetSayisi = 78 },
+        new SurahInfo { Number = 56, TurkceIsim = "Vâkıa", ArapcaIsim = "الواقعة", AyetSayisi = 96 },
+        new SurahInfo { Number = 57, TurkceIsim = "Hadîd", ArapcaIsim = "الحديد", AyetSayisi = 29 },
+        new SurahInfo { Number = 58, TurkceIsim = "Mücâdele", ArapcaIsim = "المجادلة", AyetSayisi = 22 },
+        new SurahInfo { Number = 59, TurkceIsim = "Haşr", ArapcaIsim = "الحشر", AyetSayisi = 24 },
+        new SurahInfo { Number = 60, TurkceIsim = "Mümtehine", ArapcaIsim = "الممتحنة", AyetSayisi = 13 },
+        new SurahInfo { Number = 61, TurkceIsim = "Saff", ArapcaIsim = "الصف", AyetSayisi = 14 },
+        new SurahInfo { Number = 62, TurkceIsim = "Cuma", ArapcaIsim = "الجمعة", AyetSayisi = 11 },
+        new SurahInfo { Number = 63, TurkceIsim = "Münâfikûn", ArapcaIsim = "المنافقون", AyetSayisi = 11 },
+        new SurahInfo { Number = 64, TurkceIsim = "Tegâbün", ArapcaIsim = "التغابن", AyetSayisi = 18 },
+        new SurahInfo { Number = 65, TurkceIsim = "Talâk", ArapcaIsim = "الطلاق", AyetSayisi = 12 },
+        new SurahInfo { Number = 66, TurkceIsim = "Tahrîm", ArapcaIsim = "التحريم", AyetSayisi = 12 },
+        new SurahInfo { Number = 67, TurkceIsim = "Mülk", ArapcaIsim = "الملك", AyetSayisi = 30 },
+        new SurahInfo { Number = 68, TurkceIsim = "Kalem", ArapcaIsim = "القلم", AyetSayisi = 52 },
+        new SurahInfo { Number = 69, TurkceIsim = "Hâkka", ArapcaIsim = "الحاقة", AyetSayisi = 52 },
+        new SurahInfo { Number = 70, TurkceIsim = "Meâric", ArapcaIsim = "المعارج", AyetSayisi = 44 },
+        new SurahInfo { Number = 71, TurkceIsim = "Nûh", ArapcaIsim = "نوح", AyetSayisi = 28 },
+        new SurahInfo { Number = 72, TurkceIsim = "Cin", ArapcaIsim = "الجن", AyetSayisi = 28 },
+        new SurahInfo { Number = 73, TurkceIsim = "Müzzemmil", ArapcaIsim = "المزمل", AyetSayisi = 20 },
+        new SurahInfo { Number = 74, TurkceIsim = "Müddessir", ArapcaIsim = "المدثر", AyetSayisi = 56 },
+        new SurahInfo { Number = 75, TurkceIsim = "Kıyâme", ArapcaIsim = "القيامة", AyetSayisi = 40 },
+        new SurahInfo { Number = 76, TurkceIsim = "İnsân", ArapcaIsim = "الإنسان", AyetSayisi = 31 },
+        new SurahInfo { Number = 77, TurkceIsim = "Mürselât", ArapcaIsim = "المرسلات", AyetSayisi = 50 },
+        new SurahInfo { Number = 78, TurkceIsim = "Nebe'", ArapcaIsim = "النبإ", AyetSayisi = 40 },
+        new SurahInfo { Number = 79, TurkceIsim = "Nâziât", ArapcaIsim = "النازعات", AyetSayisi = 46 },
+        new SurahInfo { Number = 80, TurkceIsim = "Abese", ArapcaIsim = "عبس", AyetSayisi = 42 },
+        new SurahInfo { Number = 81, TurkceIsim = "Tekvîr", ArapcaIsim = "التكوير", AyetSayisi = 29 },
+        new SurahInfo { Number = 82, TurkceIsim = "İnfitâr", ArapcaIsim = "الإنفطار", AyetSayisi = 19 },
+        new SurahInfo { Number = 83, TurkceIsim = "Mutaffifîn", ArapcaIsim = "المطففين", AyetSayisi = 36 },
+        new SurahInfo { Number = 84, TurkceIsim = "İnşikâk", ArapcaIsim = "الإنشقاق", AyetSayisi = 25 },
+        new SurahInfo { Number = 85, TurkceIsim = "Bürûc", ArapcaIsim = "البروج", AyetSayisi = 22 },
+        new SurahInfo { Number = 86, TurkceIsim = "Târık", ArapcaIsim = "الطارق", AyetSayisi = 17 },
+        new SurahInfo { Number = 87, TurkceIsim = "A'lâ", ArapcaIsim = "الأعلى", AyetSayisi = 19 },
+        new SurahInfo { Number = 88, TurkceIsim = "Gâşiye", ArapcaIsim = "الغاشية", AyetSayisi = 26 },
+        new SurahInfo { Number = 89, TurkceIsim = "Fecr", ArapcaIsim = "الفجر", AyetSayisi = 30 },
+        new SurahInfo { Number = 90, TurkceIsim = "Beled", ArapcaIsim = "البلد", AyetSayisi = 20 },
+        new SurahInfo { Number = 91, TurkceIsim = "Şems", ArapcaIsim = "الشمس", AyetSayisi = 15 },
+        new SurahInfo { Number = 92, TurkceIsim = "Leyl", ArapcaIsim = "الليل", AyetSayisi = 21 },
+        new SurahInfo { Number = 93, TurkceIsim = "Duhâ", ArapcaIsim = "الضحى", AyetSayisi = 11 },
+        new SurahInfo { Number = 94, TurkceIsim = "İnşirâh", ArapcaIsim = "الشرح", AyetSayisi = 8 },
+        new SurahInfo { Number = 95, TurkceIsim = "Tîn", ArapcaIsim = "التين", AyetSayisi = 8 },
+        new SurahInfo { Number = 96, TurkceIsim = "Alak", ArapcaIsim = "العلق", AyetSayisi = 19 },
+        new SurahInfo { Number = 97, TurkceIsim = "Kadir", ArapcaIsim = "القدر", AyetSayisi = 5 },
+        new SurahInfo { Number = 98, TurkceIsim = "Beyyine", ArapcaIsim = "البينة", AyetSayisi = 8 },
+        new SurahInfo { Number = 99, TurkceIsim = "Zilzâl", ArapcaIsim = "الزلزلة", AyetSayisi = 8 },
+        new SurahInfo { Number = 100, TurkceIsim = "Âdiyât", ArapcaIsim = "العاديات", AyetSayisi = 11 },
+        new SurahInfo { Number = 101, TurkceIsim = "Kâria", ArapcaIsim = "القارعة", AyetSayisi = 11 },
+        new SurahInfo { Number = 102, TurkceIsim = "Tekâsür", ArapcaIsim = "التكاثر", AyetSayisi = 8 },
+        new SurahInfo { Number = 103, TurkceIsim = "Asr", ArapcaIsim = "العصر", AyetSayisi = 3 },
+        new SurahInfo { Number = 104, TurkceIsim = "Hümeze", ArapcaIsim = "الهمزة", AyetSayisi = 9 },
+        new SurahInfo { Number = 105, TurkceIsim = "Fîl", ArapcaIsim = "الفيل", AyetSayisi = 5 },
+        new SurahInfo { Number = 106, TurkceIsim = "Kureyş", ArapcaIsim = "قريش", AyetSayisi = 4 },
+        new SurahInfo { Number = 107, TurkceIsim = "Mâûn", ArapcaIsim = "الماعون", AyetSayisi = 7 },
+        new SurahInfo { Number = 108, TurkceIsim = "Kevser", ArapcaIsim = "الكوثر", AyetSayisi = 3 },
+        new SurahInfo { Number = 109, TurkceIsim = "Kâfirûn", ArapcaIsim = "الكافرون", AyetSayisi = 6 },
+        new SurahInfo { Number = 110, TurkceIsim = "Nasr", ArapcaIsim = "النصر", AyetSayisi = 3 },
+        new SurahInfo { Number = 111, TurkceIsim = "Tebbet (Mesed)", ArapcaIsim = "المسد", AyetSayisi = 5 },
+        new SurahInfo { Number = 112, TurkceIsim = "İhlâs", ArapcaIsim = "الإخلاص", AyetSayisi = 4 },
+        new SurahInfo { Number = 113, TurkceIsim = "Felak", ArapcaIsim = "الفلق", AyetSayisi = 5 },
+        new SurahInfo { Number = 114, TurkceIsim = "Nâs", ArapcaIsim = "الناس", AyetSayisi = 6 }
+    };
+}

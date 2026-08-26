@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "myblozewebsite/1.0.0": {
+        "runtime": {
+          "myblozewebsite.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "myblozewebsite/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

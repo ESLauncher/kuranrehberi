@@ -1,0 +1,87 @@
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\appsettings.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\myblozewebsite.staticwebassets.runtime.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\myblozewebsite.exe
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\myblozewebsite.deps.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\myblozewebsite.runtimeconfig.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\bin\Debug\net8.0\myblozewebsite.pdb
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.AssemblyInfoInputs.cache
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.AssemblyInfo.cs
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.csproj.CoreCompileInputs.cache
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets\msbuild.myblozewebsite.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets\msbuild.build.myblozewebsite.props
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.myblozewebsite.props
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.myblozewebsite.props
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\scopedcss\bundle\myblozewebsite.styles.css
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\scopedcss\projectbundle\myblozewebsite.bundle.scp.css
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\refint\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.pdb
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\myblozewebsite.genruntimeconfig.cache
+C:\Users\hiem2\OneDrive\Desktop\deneme\myblozewebsite\obj\Debug\net8.0\ref\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.AssemblyInfoInputs.cache
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.AssemblyInfo.cs
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.csproj.CoreCompileInputs.cache
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\refint\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.pdb
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\appsettings.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.staticwebassets.runtime.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.exe
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.deps.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.runtimeconfig.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.dll
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.pdb
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.myblozewebsite.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.build.myblozewebsite.props
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.myblozewebsite.props
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.myblozewebsite.props
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\bundle\myblozewebsite.styles.css
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\projectbundle\myblozewebsite.bundle.scp.css
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.genruntimeconfig.cache
+C:\Users\hiem2\OneDrive\Desktop\kuran okuma sitesi\obj\Debug\net8.0\ref\myblozewebsite.dll
+D:\kuran okuma sitesi\bin\Debug\net8.0\appsettings.Development.json
+D:\kuran okuma sitesi\bin\Debug\net8.0\appsettings.json
+D:\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.staticwebassets.runtime.json
+D:\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.exe
+D:\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.deps.json
+D:\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.runtimeconfig.json
+D:\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.dll
+D:\kuran okuma sitesi\bin\Debug\net8.0\myblozewebsite.pdb
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.GeneratedMSBuildEditorConfig.editorconfig
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.AssemblyInfoInputs.cache
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.AssemblyInfo.cs
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.csproj.CoreCompileInputs.cache
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.MvcApplicationPartsAssemblyInfo.cache
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets.build.json
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets.development.json
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.myblozewebsite.Microsoft.AspNetCore.StaticWebAssets.props
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.build.myblozewebsite.props
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.myblozewebsite.props
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.myblozewebsite.props
+D:\kuran okuma sitesi\obj\Debug\net8.0\staticwebassets.pack.json
+D:\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+D:\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\bundle\myblozewebsite.styles.css
+D:\kuran okuma sitesi\obj\Debug\net8.0\scopedcss\projectbundle\myblozewebsite.bundle.scp.css
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.dll
+D:\kuran okuma sitesi\obj\Debug\net8.0\refint\myblozewebsite.dll
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.pdb
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.genruntimeconfig.cache
+D:\kuran okuma sitesi\obj\Debug\net8.0\ref\myblozewebsite.dll

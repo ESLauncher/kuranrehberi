@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\kuran okuma sitesi\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\myblozewebsite.bundle.scp.css",
+      "PackagePath": "staticwebassets\\myblozewebsite.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\kuran okuma sitesi\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "D:\\kuran okuma sitesi\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\kuran okuma sitesi\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\kuran okuma sitesi\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.myblozewebsite.props",
+      "PackagePath": "build\\myblozewebsite.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.myblozewebsite.props",
+      "PackagePath": "buildMultiTargeting\\myblozewebsite.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.myblozewebsite.props",
+      "PackagePath": "buildTransitive\\myblozewebsite.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.myblozewebsite.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

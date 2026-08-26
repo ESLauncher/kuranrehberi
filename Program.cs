@@ -3,8 +3,12 @@ using myblozewebsite.Components;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// SignalR bağlantı toleransını artırarak cihaz geçişlerindeki kopmaları esnettik
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents(options =>
+    {
+        options.DetailedErrors = true;
+    });
 
 // --- API İstekleri İçin HttpClient Servisini Ekle ---
 builder.Services.AddHttpClient();

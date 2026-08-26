@@ -6,11 +6,19 @@
     --accent-emerald: #059669;
 }
 
+/* Genel taşmaları önlemek için box-sizing ve yatay kaydırma engeli */
+* {
+    box-sizing: border-box;
+}
+
 body {
     background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: var(--text-primary);
+    overflow-x: hidden; /* Sağa sola taşmayı kesin olarak engeller */
+    margin: 0;
+    padding: 0;
 }
 
 /* Glassmorphism Floating Kartlar */
@@ -22,6 +30,7 @@ body {
     border-radius: 20px;
     box-shadow: var(--glass-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 100%;
 }
 
 .liquid-glass-card:hover {
@@ -29,14 +38,15 @@ body {
     box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
 }
 
-/* Floating Dock Topbar / Navbar */
+/* Floating Dock Topbar / Navbar (Mobilde tam uyumlu) */
 .mac-floating-nav {
     position: sticky;
-    top: 15px;
+    top: 10px;
     z-index: 1000;
-    margin: 0 auto 20px auto;
-    width: 90%;
-    padding: 12px 24px;
+    margin: 10px auto 20px auto;
+    width: 95%;
+    max-width: 1200px;
+    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,4 +60,35 @@ body {
     direction: rtl;
     text-align: right;
     color: #0f172a;
+    word-break: break-word;
+}
+
+/* ========================================== */
+/* MOBİL UYUMLULUK İÇİN ÖZEL MEDYA SORGULARI   */
+/* ========================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+
+    /* Mobilde ana konteynerların kenar boşluklarını daralt */
+    .main-container {
+        padding: 10px !important;
+    }
+
+    /* Mobilde Arapça yazı boyutunu küçülterek taşmayı önle */
+    .quran-arabic, .fs-2 {
+        font-size: 1.5rem !important;
+        line-height: 2.2rem !important;
+    }
+
+    /* Ok butonları ve sayfalama elemanlarının mobilde sıkışmasını önle */
+    .d-flex.align-items-center.justify-content-between {
+        gap: 5px !important;
+    }
+
+    /* Ok butonlarını mobilde biraz daha kompakt yap */
+    .btn.rounded-circle {
+        padding: 10px !important;
+    }
 }

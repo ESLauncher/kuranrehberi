@@ -85,3 +85,4 @@ D:\kuran okuma sitesi\obj\Debug\net8.0\refint\myblozewebsite.dll
 D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.pdb
 D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.genruntimeconfig.cache
 D:\kuran okuma sitesi\obj\Debug\net8.0\ref\myblozewebsite.dll
+D:\kuran okuma sitesi\obj\Debug\net8.0\myblozewebsite.sourcelink.json

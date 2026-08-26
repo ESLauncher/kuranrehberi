@@ -6,7 +6,7 @@
     --accent-emerald: #059669;
 }
 
-/* Genel taşmaları önlemek için box-sizing ve yatay kaydırma engeli */
+/* Genel taşmaları ve kaymaları kesin olarak engeller */
 * {
     box-sizing: border-box;
 }
@@ -16,9 +16,13 @@ body {
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: var(--text-primary);
-    overflow-x: hidden; /* Sağa sola taşmayı kesin olarak engeller */
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
+    /* İçeriğin telefonda sola ve düzgün hizalanması için */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 /* Glassmorphism Floating Kartlar */
@@ -31,6 +35,7 @@ body {
     box-shadow: var(--glass-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     max-width: 100%;
+    width: 100%;
 }
 
 .liquid-glass-card:hover {
@@ -38,14 +43,14 @@ body {
     box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
 }
 
-/* Floating Dock Topbar / Navbar (Mobilde tam uyumlu) */
+/* Floating Dock Topbar / Navbar */
 .mac-floating-nav {
     position: sticky;
     top: 10px;
     z-index: 1000;
     margin: 10px auto 20px auto;
     width: 95%;
-    max-width: 1200px;
+    max-width: 800px;
     padding: 10px 15px;
     display: flex;
     justify-content: space-between;
@@ -61,34 +66,54 @@ body {
     text-align: right;
     color: #0f172a;
     word-break: break-word;
+    width: 100%;
+}
+
+/* Sayfa genelindeki ana kapsayıcıların sola dayalı ve düzgün durması için */
+.container, .container-fluid {
+    width: 100%;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 /* ========================================== */
-/* MOBİL UYUMLULUK İÇİN ÖZEL MEDYA SORGULARI   */
+/* MOBİL UYUMLULUK VE SOLA YASLAMA AYARLARI   */
 /* ========================================== */
 @media (max-width: 768px) {
     body {
-        padding: 5px;
+        padding: 0;
+        align-items: flex-start; /* Mobilde sola/başa yaslar */
     }
 
-    /* Mobilde ana konteynerların kenar boşluklarını daralt */
-    .main-container {
-        padding: 10px !important;
+    .container, .container-fluid {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        margin-left: 0 !important; /* Mobilde tam sola yanaşmasını sağlar */
+        margin-right: auto !important;
+        max-width: 100% !important;
     }
 
-    /* Mobilde Arapça yazı boyutunu küçülterek taşmayı önle */
-    .quran-arabic, .fs-2 {
+    /* Kartların mobilde sağa sola taşmasını önle */
+    .liquid-glass-card, div[class*="card"] {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 12px;
+    }
+
+    /* Mobilde Arapça yazı boyutunu küçülterek ekrana sığdır */
+    .quran-arabic {
         font-size: 1.5rem !important;
         line-height: 2.2rem !important;
     }
 
-    /* Ok butonları ve sayfalama elemanlarının mobilde sıkışmasını önle */
-    .d-flex.align-items-center.justify-content-between {
-        gap: 5px !important;
-    }
-
-    /* Ok butonlarını mobilde biraz daha kompakt yap */
-    .btn.rounded-circle {
-        padding: 10px !important;
+    /* Üst menü genişliği */
+    .mac-floating-nav {
+        width: 100% !important;
+        border-radius: 0 0 15px 15px;
+        margin-top: 0;
     }
 }

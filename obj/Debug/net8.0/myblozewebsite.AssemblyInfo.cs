@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("myblozewebsite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+afd79da0ca88d814ac3b2d9f048b4c58ec82d1ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+383856c0994bac96b96ab58050387db60fa5b1fa")]
 [assembly: System.Reflection.AssemblyProductAttribute("myblozewebsite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("myblozewebsite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
